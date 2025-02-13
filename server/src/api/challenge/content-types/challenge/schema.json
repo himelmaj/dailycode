@@ -16,10 +16,19 @@
       "required": true,
       "unique": true
     },
-    "description": {
-      "type": "text"
+    "problem": {
+      "type": "richtext",
+      "required": true
     },
-    "difficulty": {
+    "code": {
+      "type": "text",
+      "required": true
+    },
+    "solution": {
+      "type": "text",
+      "required": true
+    },
+    "levels": {
       "type": "enumeration",
       "enum": [
         "easy",
@@ -27,26 +36,23 @@
         "hard",
         "expert"
       ],
-      "required": true
+      "required": true,
+      "default": "medium"
     },
-    "tags": {
+    "lang": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::tag.tag",
-      "mappedBy": "challenge"
-    },
-    "solution": {
-      "type": "richtext",
-      "required": true
+      "relation": "manyToOne",
+      "target": "api::lang.lang",
+      "inversedBy": "challenges"
     },
     "slug": {
       "type": "string",
+      "default": "day",
+      "regex": "^day\\d{1,5}$",
       "required": true,
       "unique": true,
       "maxLength": 8,
-      "minLength": 4,
-      "default": "day0",
-      "regex": "^day\\d{1,5}$"
+      "minLength": 4
     }
   }
 }

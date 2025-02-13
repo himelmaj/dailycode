@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "tags",
+  "collectionName": "langs",
   "info": {
-    "singularName": "tag",
-    "pluralName": "tags",
-    "displayName": "Tag"
+    "singularName": "lang",
+    "pluralName": "langs",
+    "displayName": "Lang"
   },
   "options": {
     "draftAndPublish": true
@@ -12,21 +12,19 @@
   "attributes": {
     "name": {
       "type": "string",
-      "unique": true,
       "required": true,
-      "maxLength": 20,
-      "minLength": 1
+      "unique": true
     },
     "slug": {
       "type": "uid",
       "targetField": "name",
       "required": true
     },
-    "challenge": {
+    "challenges": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::challenge.challenge",
-      "inversedBy": "tags"
+      "mappedBy": "lang"
     }
   }
 }

@@ -1,8 +1,9 @@
-import React from 'react'
+"use server";
 
-const Challenge = () => {
+const Challenge = async ({ params }: { params: Promise<{ challengeSlug: string }>}) => {
+  const slug = (await params).challengeSlug
   return (
-    <div>Challenge</div>
+    <div>Challenge: {slug}</div>
   )
 }
 

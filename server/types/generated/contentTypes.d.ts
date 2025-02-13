@@ -369,6 +369,45 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
+  collectionName: 'challenges';
+  info: {
+    description: '';
+    displayName: 'Challenge';
+    pluralName: 'challenges';
+    singularName: 'challenge';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    code: Schema.Attribute.Text & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    lang: Schema.Attribute.Relation<'manyToOne', 'api::lang.lang'>;
+    levels: Schema.Attribute.Enumeration<['easy', 'medium', 'hard', 'expert']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'medium'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::challenge.challenge'
+    > &
+      Schema.Attribute.Private;
+    problem: Schema.Attribute.RichText & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    solution: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiLangLang extends Struct.CollectionTypeSchema {
   collectionName: 'langs';
   info: {
@@ -380,6 +419,10 @@ export interface ApiLangLang extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    challenges: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::challenge.challenge'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -906,6 +949,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::challenge.challenge': ApiChallengeChallenge;
       'api::lang.lang': ApiLangLang;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

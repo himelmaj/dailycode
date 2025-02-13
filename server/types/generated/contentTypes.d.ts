@@ -397,7 +397,14 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     problem: Schema.Attribute.RichText & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 8;
+        minLength: 4;
+      }> &
+      Schema.Attribute.DefaultTo<'day'>;
     solution: Schema.Attribute.Text & Schema.Attribute.Required;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &

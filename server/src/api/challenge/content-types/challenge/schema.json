@@ -16,11 +16,6 @@
       "required": true,
       "unique": true
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "title",
-      "required": true
-    },
     "problem": {
       "type": "richtext",
       "required": true
@@ -49,6 +44,15 @@
       "relation": "manyToOne",
       "target": "api::lang.lang",
       "inversedBy": "challenges"
+    },
+    "slug": {
+      "type": "string",
+      "default": "day",
+      "regex": "^day\\d{1,5}$",
+      "required": true,
+      "unique": true,
+      "maxLength": 8,
+      "minLength": 4
     }
   }
 }

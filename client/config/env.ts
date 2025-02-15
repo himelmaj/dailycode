@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-    STRAPI_URL: z.string().url().default('STRAPI_URL_REQUIRED'),
+    STRAPI_URL: z.string().default('STRAPI_URL_REQUIRED'),
     STRAPI_TOKEN: z.string().default('STRAPI_TOKEN_REQUIRED'),
 });
 

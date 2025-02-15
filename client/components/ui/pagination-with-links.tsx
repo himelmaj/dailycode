@@ -10,7 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./pagination";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export interface PaginationWithLinksProps {
@@ -25,25 +25,22 @@ export interface PaginationWithLinksProps {
 }
 
 /**
- * Navigate with Nextjs links (need to update your own `pagination.tsx` to use Nextjs Link)
+ * Navigate with Nextjs links (need to update your own pagination.tsx to use Nextjs Link)
  * 
  * @example
- * ```
  * <PaginationWithLinks
-    page={1}
-    pageSize={20}
-    totalCount={500}
-  />
- * ```
+ *    page={1}
+ *    pageSize={20}
+ *    totalCount={500}
+ * />
  */
 export function PaginationWithLinks({
   pageSizeSelectOptions,
   pageSize,
   totalCount,
   page,
-  pageSearchParam,
+  pageSearchParam = "page",
 }: PaginationWithLinksProps) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -57,18 +54,7 @@ export function PaginationWithLinks({
       newSearchParams.set(key, String(newPage));
       return `${pathname}?${newSearchParams.toString()}`;
     },
-    [searchParams, pathname],
-  );
-
-  const navToPageSize = useCallback(
-    (newPageSize: number) => {
-      const key = pageSizeSelectOptions?.pageSizeSearchParam || "pageSize";
-      const newSearchParams = new URLSearchParams(searchParams || undefined);
-      newSearchParams.set(key, String(newPageSize));
-      newSearchParams.delete(pageSearchParam || "page"); // Clear the page number when changing page size
-      router.push(`${pathname}?${newSearchParams.toString()}`);
-    },
-    [searchParams, pathname],
+    [searchParams, pathname, pageSearchParam],  // Agrega pageSearchParam aquí
   );
 
   const renderPageNumbers = () => {

@@ -15,7 +15,7 @@ type ListCardProps = {
 
 const ListCard = ({ slug, title, documentId, className, variant, size }: ListCardProps) => {
     return (
-        <Link href={`/${slug}`} key={documentId} className={cn(buttonVariants({ variant, size, className }), "flex justify-between")}>
+        <Link href={`/${slug}`} key={documentId} className={cn(buttonVariants({ variant, size, className }), "flex justify-between -m-px")}>
             <span>
                 {slug}
             </span>

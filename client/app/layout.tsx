@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
-import {  Roboto } from "next/font/google";
 import "@/styles/globals.css";
+import type { Metadata } from "next";
+import { roboto, offBiteBold } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
-  display: "swap",
-  variable: "--font-roboto",
-});
+
 
 export const metadata: Metadata = {
   title: "Daily Code",
@@ -20,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark bg-noise bg-background" suppressHydrationWarning>
-      <body className={`${roboto.variable} antialiased text-muted-foreground `}>
+      <body className={cn(roboto.variable, offBiteBold.variable, "antialiased text-muted-foreground")}>
         {children}
       </body>
     </html>

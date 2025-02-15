@@ -381,20 +381,21 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    code: Schema.Attribute.Text & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    difficulty: Schema.Attribute.Enumeration<
-      ['easy', 'medium', 'hard', 'expert']
-    > &
-      Schema.Attribute.Required;
+    lang: Schema.Attribute.Relation<'manyToOne', 'api::lang.lang'>;
+    levels: Schema.Attribute.Enumeration<['easy', 'medium', 'hard', 'expert']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'medium'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::challenge.challenge'
     > &
       Schema.Attribute.Private;
+    problem: Schema.Attribute.RichText & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.String &
       Schema.Attribute.Required &
@@ -403,9 +404,8 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
         maxLength: 8;
         minLength: 4;
       }> &
-      Schema.Attribute.DefaultTo<'day0'>;
-    solution: Schema.Attribute.RichText & Schema.Attribute.Required;
-    tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
+      Schema.Attribute.DefaultTo<'day'>;
+    solution: Schema.Attribute.Text & Schema.Attribute.Required;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
@@ -415,34 +415,30 @@ export interface ApiChallengeChallenge extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiTagTag extends Struct.CollectionTypeSchema {
-  collectionName: 'tags';
+export interface ApiLangLang extends Struct.CollectionTypeSchema {
+  collectionName: 'langs';
   info: {
-    displayName: 'Tag';
-    pluralName: 'tags';
-    singularName: 'tag';
+    displayName: 'Lang';
+    pluralName: 'langs';
+    singularName: 'lang';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    challenge: Schema.Attribute.Relation<
-      'manyToOne',
+    challenges: Schema.Attribute.Relation<
+      'oneToMany',
       'api::challenge.challenge'
     >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::lang.lang'> &
       Schema.Attribute.Private;
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 20;
-        minLength: 1;
-      }>;
+      Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -961,7 +957,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::challenge.challenge': ApiChallengeChallenge;
-      'api::tag.tag': ApiTagTag;
+      'api::lang.lang': ApiLangLang;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

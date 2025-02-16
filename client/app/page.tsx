@@ -6,6 +6,8 @@ import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import ChallengeList from "@/components/challenge/challenge-list";
 import Hero from "@/components/hero";
 
+import { DEFAULT_LIMIT, DEFAULT_PAGE, DEFAULT_ORDER } from "@/constants/query-params";
+
 interface HomeProps {
   searchParams?: Promise<{ page?: string, limit?: string, sort?: keyof IChallenge, order?: "asc" | "desc" }>;
 }
@@ -14,14 +16,13 @@ const Home = async (props: HomeProps) => {
 
   const searchParams = await props.searchParams;
 
-  const paramPage = searchParams?.page ? parseInt(searchParams.page) : 1;
-  const limit = searchParams?.limit ? parseInt(searchParams.limit) : 10;
-  // const sort = searchParams?.sort ? searchParams.sort : "publishedAt";
-  const order = searchParams?.order ? searchParams.order : "desc";
+  const page = parseInt(searchParams?.page || "") || DEFAULT_PAGE;
+  const limit = parseInt(searchParams?.limit || "") || DEFAULT_LIMIT;
+  const order = (searchParams?.order as "asc" | "desc") || DEFAULT_ORDER;
 
-  const { data, meta } = await getChallenges(paramPage, limit, order);
+  const { data, meta } = await getChallenges(page, limit, order);
 
-  const { page, pageSize, total } = meta.pagination;
+  const { page: currentPage, pageSize, total } = meta.pagination;
 
   return (
     <div className="flex flex-col hero h-screen">
@@ -33,15 +34,11 @@ const Home = async (props: HomeProps) => {
 
         {/* solo sale si hay paginas */}
 
-        {
-          (total > 0 && pageSize !== total) && (
-            <PaginationWithLinks
-              page={page}
-              pageSize={pageSize}
-              totalCount={total}
-            />
-          )
-        }
+        <PaginationWithLinks
+          page={currentPage}
+          pageSize={pageSize}
+          totalCount={total}
+        />
 
 
         {/* <PaginationWithLinks page={page} pageSize={pageSize} totalCount={total} /> */}

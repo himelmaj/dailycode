@@ -27,3 +27,18 @@ export interface IChallengesResponse {
     data: IChallenge[];
     meta: IMeta;
 }
+
+export interface IChallengeSlug {
+    id: number;
+    title: string;
+    slug: string;
+    problem: string;
+    code: string;
+    solution: string;
+    levels: "easy" | "medium" | "hard" | "expert"
+    lang: {
+        id: number;
+        name: string;
+        slug: string;
+    };
+}

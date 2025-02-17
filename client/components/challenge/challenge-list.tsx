@@ -1,6 +1,6 @@
 "use client";
 
-import { IChallenge } from "@/types/challenges";
+import { IChallenge } from "@/types";
 import React from "react";
 import ListCard from "./challenge-list-item";
 
@@ -10,7 +10,7 @@ type ChallengeListProps = {
 
 const ChallengeList = ({ data }: ChallengeListProps) => {
     return (
-        <ul className="flex flex-col flex-1 my-2">
+        <ul className="flex flex-col flex-1">
             {data.map((challenge) => (
                 <li key={challenge.id} className=" w-full flex uppercase">
                     <ListCard {...challenge} className=" w-full  text-xs h-9 bg-[#121212]" variant="outline" size="lg" />

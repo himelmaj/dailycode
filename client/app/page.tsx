@@ -1,7 +1,7 @@
 "use server";
 
 import { getChallenges } from "@/services/challenges";
-import { IChallenge } from "@/types/challenges";
+import { IChallenge } from "@/types";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import ChallengeList from "@/components/challenge/challenge-list";
 import Hero from "@/components/hero";
@@ -25,11 +25,11 @@ const Home = async (props: HomeProps) => {
   const { page: currentPage, pageSize, total } = meta.pagination;
 
   return (
-    <div className="flex flex-col hero h-screen">
+    <div className="flex flex-row hero h-screen">
 
       <Hero />
 
-      <main className="flex flex-col flex-1 justify-between py-2">
+      <main className="flex flex-col flex-1 justify-between">
         <ChallengeList data={data} />
 
         {/* solo sale si hay paginas */}

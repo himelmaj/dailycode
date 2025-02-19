@@ -54,13 +54,26 @@ Create a `.env` file in `/server` and another in `/client` with the necessary co
 
 Example for Strapi (`/server/.env`):  
 ```env
-DATABASE_CLIENT=sqlite
+HOST=0.0.0.0
+PORT=1337
+
 APP_KEYS=key1,key2,key3,key4
+
+API_TOKEN_SALT=
+ADMIN_JWT_SECRET=
+TRANSFER_TOKEN_SALT=
+
+
+DATABASE_CLIENT=postgres
+DATABASE_URL=
+
+JWT_SECRET=
 ```
 
 Example for Next.js (`/client/.env.local`):  
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:1337
+STRAPI_URL=http://localhost:1337
+STRAPI_TOKEN=
 ```
 
 ## Deployment
